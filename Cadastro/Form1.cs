@@ -16,7 +16,10 @@ namespace Cadastro
         private static readonly string usernameDataBase = "root";
         // Use your database password here:
         private static readonly string passwordDataBase = "123";
-        private string data_source = String.Format("datasource=localhost;username={0};password={1};database=bdTeste", usernameDataBase, passwordDataBase);
+        // Use your database name here:
+        private static readonly string dataBaseName = "bdTeste";
+
+        private string data_source = String.Format("datasource=localhost;username={0};password={1};database={2}", usernameDataBase, passwordDataBase, dataBaseName);
         public Form1()
         {
             InitializeComponent();
