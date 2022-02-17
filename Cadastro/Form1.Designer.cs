@@ -40,7 +40,7 @@
             this.btnFinalizarCadastro = new System.Windows.Forms.Button();
             this.cpfCadastro = new System.Windows.Forms.MaskedTextBox();
             this.Excluir = new System.Windows.Forms.Button();
-            this.Limpar = new System.Windows.Forms.Button();
+            this.EditarCadastro = new System.Windows.Forms.Button();
             this.tabelaBD = new System.Windows.Forms.DataGridView();
             this.NOME = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IDADE = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -169,14 +169,15 @@
             this.Excluir.UseVisualStyleBackColor = true;
             this.Excluir.Click += new System.EventHandler(this.Excluir_Click);
             // 
-            // Limpar
+            // EditarCadastro
             // 
-            this.Limpar.Location = new System.Drawing.Point(673, 205);
-            this.Limpar.Name = "Limpar";
-            this.Limpar.Size = new System.Drawing.Size(115, 43);
-            this.Limpar.TabIndex = 15;
-            this.Limpar.Text = "Limpar";
-            this.Limpar.UseVisualStyleBackColor = true;
+            this.EditarCadastro.Location = new System.Drawing.Point(673, 205);
+            this.EditarCadastro.Name = "EditarCadastro";
+            this.EditarCadastro.Size = new System.Drawing.Size(115, 43);
+            this.EditarCadastro.TabIndex = 15;
+            this.EditarCadastro.Text = "Editar Cadastro";
+            this.EditarCadastro.UseVisualStyleBackColor = true;
+            this.EditarCadastro.Click += new System.EventHandler(this.EditarCadastro_Click);
             // 
             // tabelaBD
             // 
@@ -222,7 +223,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tabelaBD);
-            this.Controls.Add(this.Limpar);
+            this.Controls.Add(this.EditarCadastro);
             this.Controls.Add(this.Excluir);
             this.Controls.Add(this.cpfCadastro);
             this.Controls.Add(this.btnFinalizarCadastro);
@@ -258,7 +259,7 @@
         private System.Windows.Forms.Button btnFinalizarCadastro;
         private System.Windows.Forms.MaskedTextBox cpfCadastro;
         private System.Windows.Forms.Button Excluir;
-        private System.Windows.Forms.Button Limpar;
+        private System.Windows.Forms.Button EditarCadastro;
         private System.Windows.Forms.DataGridView tabelaBD;
         private System.Windows.Forms.DataGridViewTextBoxColumn NOME;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDADE;

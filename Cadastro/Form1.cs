@@ -12,8 +12,11 @@ using MySql.Data.MySqlClient;
 namespace Cadastro
 {
     public partial class Form1 : Form
-    {
-        private string data_source = "datasource=localhost;username=root;password=15122004;database=bdTeste";
+    {   // use your username here:
+        private static readonly string usernameDataBase = "root";
+        // Use your database password here:
+        private static readonly string passwordDataBase = "123";
+        private string data_source = String.Format("datasource=localhost;username={0};password={1};database=bdTeste", usernameDataBase, passwordDataBase);
         public Form1()
         {
             InitializeComponent();
@@ -37,7 +40,7 @@ namespace Cadastro
                 MessageBox.Show("CPF JA EXISTE");
                 return;
             }
-            int intIdade = Int16.Parse(idadeCadastro.Text); 
+            int intIdade = UInt16.Parse(idadeCadastro.Text); 
             if (feminino.Checked)
             {
                 addDataBase("feminino");
@@ -100,7 +103,7 @@ namespace Cadastro
                     Connection.Open();
                     string command = insertRegister();
                     MySqlCommand insert = new MySqlCommand(command, Connection);
-                    if (Int16.TryParse(idadeCadastro.Text, out short intIdade)) {
+                    if (UInt16.TryParse(idadeCadastro.Text, out ushort intIdade)) {
                         insert.Parameters.AddWithValue("@NOME", nomeCadastro.Text);
                         insert.Parameters.AddWithValue("@IDADE", idadeCadastro.Text);
                         insert.Parameters.AddWithValue("@CPF", cpfCadastro.Text);
@@ -167,9 +170,52 @@ namespace Cadastro
                 }
                 // In case it didn't find a cpf return false;
                 return false;
-            }
-        
+            }       
         }
+        private void updateRegister(string cpf,string newName, int newAge, string newCpf, string newGender) {
+            using (MySqlConnection Connection = new MySqlConnection(data_source)) {
+                try {
+                    Connection.Open();
+                    string updateCommand = "UPDATE usuarios SET NOME = @NEWNAME, IDADE = @NEWAGE, CPF = @NEWCPF, SEXO = @NEWGENDER  WHERE CPF = @CPF";
+                    MySqlCommand updateCpf = new MySqlCommand(updateCommand, Connection);
+                    updateCpf.Parameters.AddWithValue("@NEWNAME", newName);
+                    updateCpf.Parameters.AddWithValue("@NEWAGE", newAge);
+                    updateCpf.Parameters.AddWithValue("@NEWCPF", newCpf);
+                    updateCpf.Parameters.AddWithValue("@NEWGENDER", newGender);
+                    updateCpf.Parameters.AddWithValue("@CPF", cpf);
+                    updateCpf.ExecuteNonQuery();
+                }
+                catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+                finally {
+                    Connection.Close();
+                }
+            }
+        }
+        private void EditarCadastro_Click(object sender, EventArgs e) {
+            int rowIndex = tabelaBD.CurrentCell.RowIndex;
+            string nome = tabelaBD[0, rowIndex].Value.ToString();
+            string idade = tabelaBD[1, rowIndex].Value.ToString();
+            string cpf = tabelaBD[2, rowIndex].Value.ToString();
+            string sexo = tabelaBD[3, rowIndex].Value.ToString();
+            EditarCadastro editarCadastro = new EditarCadastro(nome, UInt16.Parse(idade), cpf, sexo);
+            this.Hide();
+            editarCadastro.ShowDialog();
+            if (editarCadastro.EditRegister) {
+                // change in DATABASE;
+                if (!cpfAlreadyExists(editarCadastro.cpf)) {
+                    updateRegister(cpf, editarCadastro.nome, editarCadastro.idade, editarCadastro.cpf, editarCadastro.sexo);
+                }
+                else {
+                    MessageBox.Show("Você tentou alterar para um CPF que já existe, verifique com o administrador do sistema para resolver este problema!");
+                }
 
+                // populate gridview again;
+                tabelaBD.Rows.Clear();
+                populateDataGrid();
+            }
+            this.Show();
+        }
     }
 }
