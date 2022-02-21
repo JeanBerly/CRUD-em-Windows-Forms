@@ -207,7 +207,7 @@ namespace Cadastro
             editarCadastro.ShowDialog();
             if (editarCadastro.EditRegister) {
                 // change in DATABASE;
-                if (!cpfAlreadyExists(editarCadastro.cpf)) {
+                if ((cpfAlreadyExists(editarCadastro.cpf) && cpf == editarCadastro.cpf) || (!cpfAlreadyExists(editarCadastro.cpf))) {
                     updateRegister(cpf, editarCadastro.nome, editarCadastro.idade, editarCadastro.cpf, editarCadastro.sexo);
                 }
                 else {
